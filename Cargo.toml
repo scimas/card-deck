@@ -1,0 +1,13 @@
+[package]
+name = "card_deck"
+version = "0.1.0"
+authors = ["Mihir Gadgil <mmgadgil20@gmail.com>"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rand = "0.8.5"
+
+[features]
+standard-deck = []
