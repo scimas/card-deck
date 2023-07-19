@@ -4,8 +4,11 @@ use crate::Deck;
 
 /// A playing card.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Card {
+    /// A card with a suit and a rank.
     Normal { suit: Suit, rank: Rank },
+    /// A wildcard, sometimes also known as Joker or trump card.
     Wildcard,
 }
 
@@ -41,6 +44,7 @@ impl Card {
 
 /// Suits of the "normal" playing cards.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Suit {
     Clubs,
     Diamonds,
@@ -61,6 +65,7 @@ impl Suit {
 /// Ordering is not imposed on the ranks, which rank is smaller or bigger should
 /// be decided by the caller.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Rank {
     Numeric(u8),
     Jack,
@@ -70,7 +75,7 @@ pub enum Rank {
 }
 
 impl Rank {
-    /// Create a new `Rank` from a numeric value, where 2..=10 correspond to the
+    /// Create a new `Rank` from a numeric value, where `2..=10` correspond to the
     /// respective ranks, 1, 11, 12, 13 correspond to the Ace, the Jack, the
     /// Queen and the King respectively.
     ///
