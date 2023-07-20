@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::{collections::HashSet, fmt::Display};
 
 use crate::Deck;
 
@@ -56,6 +56,15 @@ impl Suit {
     /// Get all suits as a `Vec`.
     pub fn all_suits() -> [Suit; 4] {
         [Suit::Clubs, Suit::Diamonds, Suit::Hearts, Suit::Spades]
+    }
+
+    pub fn name(&self) -> &str {
+        match self {
+            Suit::Clubs => "clubs",
+            Suit::Diamonds => "diamonds",
+            Suit::Hearts => "hearts",
+            Suit::Spades => "spades",
+        }
     }
 }
 
@@ -254,6 +263,57 @@ fn full_deck() -> HashSet<Card> {
         .into_iter()
         .flat_map(|suit| cards_for_suit(&suit))
         .collect()
+}
+
+impl Display for Suit {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Suit::Clubs => write!(f, "\u{2663}"),
+            Suit::Diamonds => write!(f, "\u{2666}"),
+            Suit::Hearts => write!(f, "\u{2665}"),
+            Suit::Spades => write!(f, "\u{2660}"),
+        }
+    }
+}
+
+impl Display for Rank {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Rank::Numeric(n @ 2..=10) => write!(f, "{n}"),
+            Rank::Jack => write!(f, "J"),
+            Rank::Queen => write!(f, "Q"),
+            Rank::King => write!(f, "K"),
+            Rank::Ace => write!(f, "A"),
+            Rank::Numeric(_) => Err(std::fmt::Error),
+        }
+    }
+}
+
+impl Display for Card {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Card::Wildcard => write!(f, "\u{1f0cf}"),
+            Card::Normal { suit, rank } => {
+                let start = match suit {
+                    Suit::Clubs => 0x1f0d0u32,
+                    Suit::Diamonds => 0x1f0c0,
+                    Suit::Hearts => 0x1f0b0,
+                    Suit::Spades => 0x1f0a0,
+                };
+                let char_value = start
+                    + match rank {
+                        Rank::Numeric(n @ 2..=10) => u32::from(*n),
+                        Rank::Jack => 11,
+                        Rank::Queen => 13,
+                        Rank::King => 14,
+                        Rank::Ace => 1,
+                        Rank::Numeric(_) => return Err(std::fmt::Error),
+                    };
+                let s = char::from_u32(char_value).ok_or(std::fmt::Error)?;
+                write!(f, "{s}")
+            }
+        }
+    }
 }
 
 #[cfg(test)]
