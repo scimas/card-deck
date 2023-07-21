@@ -1,5 +1,5 @@
 [package]
-name = "card_deck"
+name = "card-deck"
 version = "0.1.0"
 authors = ["Mihir Gadgil <mmgadgil20@gmail.com>"]
 edition = "2021"
