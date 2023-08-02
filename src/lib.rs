@@ -45,6 +45,10 @@ impl<C> Deck<C> {
         self.cards.pop()
     }
 
+    pub fn draw_n(&mut self, n: usize) -> impl Iterator<Item = C> + '_ {
+        self.cards.drain(0..n)
+    }
+
     /// Shuffle the deck.
     pub fn shuffle<R: Rng>(&mut self, rng: &mut R) {
         self.cards.shuffle(rng);
