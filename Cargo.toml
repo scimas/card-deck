@@ -1,6 +1,6 @@
 [package]
 name = "card-deck"
-version = "0.2.1"
+version = "0.2.2"
 authors = ["Mihir Gadgil <mmgadgil20@gmail.com>"]
 edition = "2021"
 
@@ -9,7 +9,8 @@ edition = "2021"
 [dependencies]
 rand = "0.8.5"
 # https://github.com/serde-rs/serde/issues/2538
-serde = { version = ">= 1.0, <= 1.0.171", features = [
+# https://github.com/serde-rs/serde/releases/tag/v1.0.184
+serde = { version = "1.0.184", features = [
     "derive",
 ], optional = true }
 
